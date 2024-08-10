@@ -1,0 +1,51 @@
+/* body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+} */
+
+.carousel {
+    width: 100%; /* Full viewport width */
+    height: 75vh; /* Fixed height */
+    margin: 20px auto; /* Center the carousel with margin */
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+    width: 300%; /* 100% for each of 3 images */
+}
+
+.carousel-images img {
+    width: 100vw; /* Full viewport width for each image */
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire area */
+}
+
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.carousel-controls button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.carousel-controls button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
