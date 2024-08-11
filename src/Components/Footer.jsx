@@ -20,9 +20,8 @@ const Footer = () => {
           <a href="https://www.instagram.com/tpolyiic/" target="_blank" rel="noopener noreferrer">
             <FaInstagram className="icon" />
           </a>
-          <a href="https://wa.me/9665348677" target="_blank" rel="noopener noreferrer">
-            <FaWhatsapp className="icon" />
-          </a>
+        
+          
         </div>
       </div>
     </footer>

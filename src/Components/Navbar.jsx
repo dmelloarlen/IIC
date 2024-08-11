@@ -24,10 +24,10 @@ function Navbar() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <a href="#">Events</a>
+          <a href="/events">Events</a>
         </li>
         <li>
-          <a href="#">Idea Sub</a>
+          <a href="/idea-sub">Idea hub</a>
         </li>
       </ul>
       <button className="login-button">Login</button>
@@ -40,9 +40,9 @@ function Navbar() {
       {dropdownVisible && (
         <div className="d-flex justify-content-center">
           <Link to="/" style={{margin:"0px 10px"}}>Home</Link>
-          <Link to="/" style={{margin:"0px 10px"}}>Events</Link>
-          <Link to="/" style={{margin:"0px 10px"}}>Idea Sub</Link>
-          <a>Login</a>
+          <Link to="/events" style={{margin:"0px 10px"}}>Events</Link>
+          <Link to="/idea-sub" style={{margin:"0px 10px"}}>Idea Sub</Link>
+          {/* <a>Login</a> */}
         </div>
       )}
     </div>
