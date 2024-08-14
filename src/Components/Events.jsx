@@ -60,14 +60,13 @@ const Events = () => {
         return;
       }
 
-      // Register each participant
-      await Promise.all(participantData.map(p =>
-        axios.post(`http://localhost:8000/events/${id}/participants`, p)
-      ));
+      // Send a single request with the array of participants
+      await axios.post(`http://localhost:8000/events/${id}/participants`, { participants: participantData });
       handleClose();
       alert('Participants registered successfully');
     } catch (error) {
       console.error('Error registering participants', error);
+      alert('Failed to register participants');
     }
   };
 
