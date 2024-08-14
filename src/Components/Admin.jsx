@@ -82,24 +82,24 @@ const Admin = () => {
     fetchParticipants(eventId);
   };
 
-  const handleDownloadExcel = async (eventId) => {
+  const handleDownloadCsv = async (eventId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/events/${eventId}/participants/export`, {
+      const response = await axios.get(`http://localhost:8000/events/${eventId}/participants/download`, {
         responseType: 'blob',
       });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+  
+      const url = window.URL.createObjectURL(new Blob([response.data], { type: 'text/csv' }));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `participants-${eventId}.xlsx`);
+      link.setAttribute('download', `participants-${eventId}.csv`);
       document.body.appendChild(link);
       link.click();
       link.parentNode.removeChild(link);
     } catch (error) {
-      console.error('Error downloading Excel file', error);
+      console.error('Error downloading CSV file', error);
     }
   };
-
+  
   return (
     <div>
       <h1>Admin</h1>
@@ -117,7 +117,8 @@ const Admin = () => {
             <img src={`http://localhost:8000/file/${event.image}`} alt={event.name} style={{ width: '100px', height: '100px' }} />
             <Button variant="danger" onClick={() => handleDeleteEvent(event._id)}>Delete</Button>
             <Button variant="info" onClick={() => handleSelectEvent(event._id)}>View Participants</Button>
-            <Button variant="success" onClick={() => handleDownloadExcel(event._id)}>Download Participants</Button>
+            <Button variant="success" onClick={() => handleDownloadCsv(event._id)}>Download Participants</Button>
+
           </div>
         ))}
       </div>
