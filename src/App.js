@@ -7,6 +7,7 @@ import Home from "../src/Components/Home"
 import Event from "../src/Components/Event"
 import Admin from "../src/Components/Admin"
 import Events from "../src/Components/Events"
+import Contact from "../src/Components/contactus"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/idea-sub" element={<Home/>} extact></Route>
           <Route path="event/:id" element={<Events/>} extact></Route>
           <Route path="/admin" element={<Admin/>} extact></Route>
+          <Route path="/contact" element={<Contact/>} extact></Route>
          </Routes>
       
         <Footer/>

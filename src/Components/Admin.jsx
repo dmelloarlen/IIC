@@ -12,7 +12,8 @@ const Admin = () => {
     description: '',
     date: '',
     image: null,
-    rule: ''
+    rule: '',
+    groupSize: 1 // New field for group size
   });
 
   useEffect(() => {
@@ -30,7 +31,9 @@ const Admin = () => {
 
   const fetchParticipants = async (eventId) => {
     try {
+      console.log('Fetching participants for event ID:', eventId); // Debugging
       const response = await axios.get(`http://localhost:8000/events/${eventId}/participants`);
+      console.log('Participants data:', response.data); // Debugging
       setParticipants(response.data);
     } catch (error) {
       console.error('Error fetching participants', error);
@@ -79,6 +82,24 @@ const Admin = () => {
     fetchParticipants(eventId);
   };
 
+  const handleDownloadExcel = async (eventId) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/events/${eventId}/participants/export`, {
+        responseType: 'blob',
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `participants-${eventId}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading Excel file', error);
+    }
+  };
+
   return (
     <div>
       <h1>Admin</h1>
@@ -96,6 +117,7 @@ const Admin = () => {
             <img src={`http://localhost:8000/file/${event.image}`} alt={event.name} style={{ width: '100px', height: '100px' }} />
             <Button variant="danger" onClick={() => handleDeleteEvent(event._id)}>Delete</Button>
             <Button variant="info" onClick={() => handleSelectEvent(event._id)}>View Participants</Button>
+            <Button variant="success" onClick={() => handleDownloadExcel(event._id)}>Download Participants</Button>
           </div>
         ))}
       </div>
@@ -110,6 +132,9 @@ const Admin = () => {
                 <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phone</th>
+                <th>Year</th>
+                <th>Branch</th>
               </tr>
             </thead>
             <tbody>
@@ -118,6 +143,9 @@ const Admin = () => {
                   <td>{index + 1}</td>
                   <td>{participant.name}</td>
                   <td>{participant.email}</td>
+                  <td>{participant.phone}</td>
+                  <td>{participant.year}</td>
+                  <td>{participant.branch}</td>
                 </tr>
               ))}
             </tbody>
@@ -150,6 +178,17 @@ const Admin = () => {
             <Form.Group controlId="formEventImage">
               <Form.Label>Image</Form.Label>
               <Form.Control type="file" name="image" onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="formEventGroupSize">
+              <Form.Label>Group Size</Form.Label>
+              <Form.Control as="select" name="groupSize" value={formData.groupSize} onChange={handleChange}>
+                <option value={1}>Group 1</option>
+                <option value={2}>Group 2</option>
+                <option value={3}>Group 3</option>
+                <option value={4}>Group 4</option>
+                <option value={5}>Group 5</option>
+                <option value={6}>Group 6</option>
+              </Form.Control>
             </Form.Group>
           </Form>
         </Modal.Body>
