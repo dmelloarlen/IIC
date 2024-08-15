@@ -1,36 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { Button, Modal, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import {
+  Button,
+  Modal,
+  Form,
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  Card,
+  Image,
+} from "react-bootstrap";
+import "../CSS/Events.css";
+import { FaBook } from "react-icons/fa";
 
 const Events = () => {
   const [event, setEvent] = useState(null);
   const [show, setShow] = useState(false);
-  const [participantData, setParticipantData] = useState([{
-    name: '',
-    email: '',
-    phone: '',
-    year: 'first',
-    branch: 'Computer Engineering',
-  }]);
-  const [groupSize, setGroupSize] = useState(1); // Track group size
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const [participantData, setParticipantData] = useState([
+    {
+      name: "",
+      email: "",
+      phone: "",
+      year: "first",
+      branch: "Computer Engineering",
+    },
+  ]);
+  const [groupSize, setGroupSize] = useState(1);
   const { id } = useParams();
 
   const fetchEvent = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/events/${id}`);
       setEvent(response.data);
-      setGroupSize(response.data.groupSize); // Set group size from event data
-      // Initialize participant data array based on group size
-      setParticipantData(Array(response.data.groupSize).fill({
-        name: '',
-        email: '',
-        phone: '',
-        year: 'first',
-        branch: 'Computer Engineering',
-      }));
+      setGroupSize(response.data.groupSize);
+      setParticipantData(
+        Array(response.data.groupSize).fill({
+          name: "",
+          email: "",
+          phone: "",
+          year: "first",
+          branch: "Computer Engineering",
+        })
+      );
     } catch (error) {
-      console.error('Error fetching event', error);
+      console.error("Error fetching event", error);
     }
   };
 
@@ -46,58 +70,107 @@ const Events = () => {
     const updatedParticipants = [...participantData];
     updatedParticipants[index] = {
       ...updatedParticipants[index],
-      [name]: value
+      [name]: value,
     };
     setParticipantData(updatedParticipants);
   };
 
   const handleRegisterParticipants = async () => {
     try {
-      // Validate that all participant data is filled
-      const allFilled = participantData.every(p => p.name && p.email && p.phone);
+      const allFilled = participantData.every(
+        (p) => p.name && p.email && p.phone
+      );
       if (!allFilled) {
-        alert('Please fill out all participant details.');
+        alert("Please fill out all participant details.");
         return;
       }
 
-      // Register each participant
-      await Promise.all(participantData.map(p =>
-        axios.post(`http://localhost:8000/events/${id}/participants`, p)
-      ));
+      await Promise.all(
+        participantData.map((p) =>
+          axios.post(`http://localhost:8000/events/${id}/participants`, p)
+        )
+      );
       handleClose();
-      alert('Participants registered successfully');
+      alert("Participants registered successfully");
     } catch (error) {
-      console.error('Error registering participants', error);
+      console.error("Error registering participants", error);
     }
   };
 
   if (!event) return <p>Loading...</p>;
 
   return (
-    <div>
-      <div className='border border-black p-2' style={{ alignItems: 'center', width: '50%', margin: 'auto' }}>
-        <h2>{event.name}</h2>
-        <p>{event.description}</p>
-        <p>{new Date(event.date).toLocaleDateString()}</p>
-        {event.image && <img src={`http://localhost:8000/file/${event.image}`} alt={event.name} />}
-      </div>
-      <div className='btn' style={{ marginTop: '-100px', marginLeft: '1200px', alignItems: 'center', justifyContent: 'center' }}>
-        <Button variant="primary" onClick={handleShow}>
-          Register Participants
-        </Button>
-      </div>
-      <div className='btn' style={{ marginTop: '-250px', marginLeft: '1200px', alignItems: 'center', justifyContent: 'center' }}>
-        <Button variant="primary">
-          Rule Book
-        </Button>
-      </div>
-      <Modal show={show} onHide={handleClose}>
+    <Container className="mt-1 event-container">
+      <Row className="justify-content-center">
+        <Col md={8} className="event-info mb-4">
+          <Image
+            src={
+              "https://via.placeholder.com/1600x900/003366/ffffff?text=Image+1"
+            }
+            alt={event.name}
+            fluid
+            className="event-image"
+          />
+          <Card className="p-3 shadow event-details">
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h3>{event.name}</h3>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <h4>Fee: {event.fee}</h4>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <p>{event.description}</p>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
+        </Col>
+        <Col md={4} className="d-flex flex-column align-items-center">
+          <Card className="p-3 text-center shadow action-card">
+            <Button
+              variant="primary"
+              onClick={handleShow}
+              className="mb-3 register-btn"
+            >
+              Register Participants
+            </Button>
+              {!showModal &&
+                <Button variant="secondary" className="rulebook-btn" onClick={handleOpenModal}>  
+                  <FaBook className="me-2" />
+                  Rule Book
+                </Button>
+              }
+          </Card>
+        </Col>
+      </Row>
+      <Modal show={showModal} onHide={handleCloseModal} style={{height:""}} centered size="lg">
+      <div style={{height:"50rem",border:"2px solid red"}}>
+        <Modal.Header closeButton>
+          <Modal.Title>PDF Viewer</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <iframe
+            title="Google Drive PDF"
+            src={`https://drive.google.com/file/d/119hiywrd_vKWtiPH-_WHtdFt7-qKsT8w/preview`}
+            style={{width:"100%",height:"100%"}}
+            allowFullScreen
+          ></iframe>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+    </div>
+      </Modal>
+
+      <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Register Participants</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {participantData.map((participant, index) => (
-            <Form key={index} className="mb-3">
+            <Form key={index} className="mb-3 participant-form">
               <h5>Participant {index + 1}</h5>
               <Form.Group controlId={`formParticipantName${index}`}>
                 <Form.Label>Name</Form.Label>
@@ -106,6 +179,7 @@ const Events = () => {
                   name="name"
                   value={participant.name}
                   onChange={(e) => handleChange(e, index)}
+                  placeholder="Enter participant's name"
                 />
               </Form.Group>
               <Form.Group controlId={`formParticipantEmail${index}`}>
@@ -115,6 +189,7 @@ const Events = () => {
                   name="email"
                   value={participant.email}
                   onChange={(e) => handleChange(e, index)}
+                  placeholder="Enter participant's email"
                 />
               </Form.Group>
               <Form.Group controlId={`formParticipantPhone${index}`}>
@@ -124,6 +199,7 @@ const Events = () => {
                   name="phone"
                   value={participant.phone}
                   onChange={(e) => handleChange(e, index)}
+                  placeholder="Enter participant's phone number"
                 />
               </Form.Group>
               <Form.Group controlId={`formParticipantYear${index}`}>
@@ -134,7 +210,7 @@ const Events = () => {
                     label="First Year"
                     name="year"
                     value="first"
-                    checked={participant.year === 'first'}
+                    checked={participant.year === "first"}
                     onChange={(e) => handleChange(e, index)}
                   />
                   <Form.Check
@@ -142,7 +218,7 @@ const Events = () => {
                     label="Second Year"
                     name="year"
                     value="second"
-                    checked={participant.year === 'second'}
+                    checked={participant.year === "second"}
                     onChange={(e) => handleChange(e, index)}
                   />
                   <Form.Check
@@ -150,7 +226,7 @@ const Events = () => {
                     label="Third Year"
                     name="year"
                     value="third"
-                    checked={participant.year === 'third'}
+                    checked={participant.year === "third"}
                     onChange={(e) => handleChange(e, index)}
                   />
                 </div>
@@ -182,7 +258,7 @@ const Events = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </Container>
   );
 };
 

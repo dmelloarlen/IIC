@@ -109,19 +109,19 @@ const Admin = () => {
       </div>
 
       <div className="mt-3">
-        {events.map((event) => (
+        {events.map((event,index) => (
           <div key={event._id} className="event-item">
+            {index>0?<hr/>:null}
+            <img src={`http://localhost:8000/file/${event.image}`} alt={event.name} style={{ width: '100px', height: '100px' }} />
             <h3>{event.name}</h3>
             <p>{event.description}</p>
             <p>{new Date(event.date).toDateString()}</p>
-            <img src={`http://localhost:8000/file/${event.image}`} alt={event.name} style={{ width: '100px', height: '100px' }} />
             <Button variant="danger" onClick={() => handleDeleteEvent(event._id)}>Delete</Button>
             <Button variant="info" onClick={() => handleSelectEvent(event._id)}>View Participants</Button>
             <Button variant="success" onClick={() => handleDownloadExcel(event._id)}>Download Participants</Button>
           </div>
         ))}
       </div>
-
       {selectedEventId && (
         <div className="mt-4">
           <h3>Participants</h3>

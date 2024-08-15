@@ -8,6 +8,7 @@ import Event from "../src/Components/Event"
 import Admin from "../src/Components/Admin"
 import Events from "../src/Components/Events"
 import Contact from "../src/Components/contactus"
+import IdeaHub from './Components/IdeaHub';
 
 function App() {
   return (
@@ -16,12 +17,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>} extact></Route>
           <Route path="/events" element={<Event/>} extact></Route>
-          <Route path="/idea-sub" element={<Home/>} extact></Route>
+          <Route path="/idea-sub" element={<IdeaHub/>} extact></Route>
           <Route path="event/:id" element={<Events/>} extact></Route>
           <Route path="/admin" element={<Admin/>} extact></Route>
           <Route path="/contact" element={<Contact/>} extact></Route>
          </Routes>
-      
         <Footer/>
       </BrowserRouter>
   );

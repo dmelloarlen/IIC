@@ -4,7 +4,7 @@ import { FaPhoneAlt, FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa'
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer mt-5">
       <div className="footer-content d-flex justify-content-between">
         <div className="contact-info">
           <div className="contact-item">
