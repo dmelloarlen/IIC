@@ -1,6 +1,7 @@
 import React from 'react';
 import '../CSS/Footer.css'; // Import the CSS file for styling
-import { FaPhoneAlt, FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
+import { FaPhoneAlt, FaInstagram, FaWhatsapp, FaEnvelope, FaFacebook, FaTwitter } from 'react-icons/fa';
+import { FaI, FaX } from 'react-icons/fa6';
 
 const Footer = () => {
   return (
@@ -19,6 +20,12 @@ const Footer = () => {
         <div className="social-media">
           <a href="https://www.instagram.com/tpolyiic/" target="_blank" rel="noopener noreferrer">
             <FaInstagram className="icon" />
+          </a>
+          <a href="https://www.instagram.com/tpolyiic/" target="_blank" rel="noopener noreferrer">
+            <FaFacebook className="icon" />
+          </a>
+          <a href="https://www.instagram.com/tpolyiic/" target="_blank" rel="noopener noreferrer">
+            <FaTwitter className="icon" />
           </a>
         
           

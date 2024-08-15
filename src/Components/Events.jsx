@@ -85,25 +85,17 @@ const Events = () => {
         return;
       }
 
-<<<<<<< HEAD
       await Promise.all(
         participantData.map((p) =>
           axios.post(`http://localhost:8000/events/${id}/participants`, p)
         )
       );
-=======
       // Send a single request with the array of participants
       await axios.post(`http://localhost:8000/events/${id}/participants`, { participants: participantData });
->>>>>>> 7aa2d2ba5e0b03d865f53d81c9be17a9c087502b
       handleClose();
       alert("Participants registered successfully");
     } catch (error) {
-<<<<<<< HEAD
       console.error("Error registering participants", error);
-=======
-      console.error('Error registering participants', error);
-      alert('Failed to register participants');
->>>>>>> 7aa2d2ba5e0b03d865f53d81c9be17a9c087502b
     }
   };
 
@@ -145,10 +137,12 @@ const Events = () => {
               Register Participants
             </Button>
               {!showModal &&
+              <a href="https://drive.google.com/file/d/119hiywrd_vKWtiPH-_WHtdFt7-qKsT8w/preview" style={{width:"100%"}}>
                 <Button variant="secondary" className="rulebook-btn" onClick={handleOpenModal}>  
                   <FaBook className="me-2" />
                   Rule Book
                 </Button>
+                </a>
               }
           </Card>
         </Col>
@@ -156,9 +150,8 @@ const Events = () => {
       <Modal show={showModal} onHide={handleCloseModal} style={{height:""}} centered size="lg">
       <div style={{height:"50rem",border:"2px solid red"}}>
         <Modal.Header closeButton>
-          <Modal.Title>PDF Viewer</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{height:"83%"}}>
           <iframe
             title="Google Drive PDF"
             src={`https://drive.google.com/file/d/119hiywrd_vKWtiPH-_WHtdFt7-qKsT8w/preview`}
