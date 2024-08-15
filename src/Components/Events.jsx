@@ -85,15 +85,25 @@ const Events = () => {
         return;
       }
 
+<<<<<<< HEAD
       await Promise.all(
         participantData.map((p) =>
           axios.post(`http://localhost:8000/events/${id}/participants`, p)
         )
       );
+=======
+      // Send a single request with the array of participants
+      await axios.post(`http://localhost:8000/events/${id}/participants`, { participants: participantData });
+>>>>>>> 7aa2d2ba5e0b03d865f53d81c9be17a9c087502b
       handleClose();
       alert("Participants registered successfully");
     } catch (error) {
+<<<<<<< HEAD
       console.error("Error registering participants", error);
+=======
+      console.error('Error registering participants', error);
+      alert('Failed to register participants');
+>>>>>>> 7aa2d2ba5e0b03d865f53d81c9be17a9c087502b
     }
   };
 
